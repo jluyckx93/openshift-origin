@@ -378,11 +378,11 @@ osm_use_cockpit=false
 #os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
 #console_port=443
 openshift_cloudprovider_kind=azure
-osm_default_node_selector='type=app'
+osm_default_node_selector='region=app'
 openshift_disable_check=disk_availability,memory_availability
 # default selectors for router and registry services
-openshift_router_selector='type=infra'
-openshift_registry_selector='type=infra'
+openshift_router_selector='region=infra'
+openshift_registry_selector='region=infra'
 
 openshift_master_cluster_method=native
 openshift_master_cluster_hostname=$MASTERPUBLICIPHOSTNAME
@@ -411,21 +411,21 @@ EOF
 
 for (( c=0; c<$MASTERCOUNT; c++ ))
 do
-  echo "$MASTER-$c openshift_node_labels=\"{'type': 'master', 'zone': 'default'}\" openshift_hostname=$MASTER-$c" >> /etc/ansible/hosts
+  echo "$MASTER-$c openshift_node_labels=\"{'region': 'master', 'zone': 'default'}\" openshift_hostname=$MASTER-$c" >> /etc/ansible/hosts
 done
 
 # Loop to add Infra Nodes
 
 for (( c=0; c<$INFRACOUNT; c++ ))
 do
-  echo "$INFRA-$c openshift_node_labels=\"{'type': 'infra', 'zone': 'default'}\" openshift_hostname=$INFRA-$c" >> /etc/ansible/hosts
+  echo "$INFRA-$c openshift_node_labels=\"{'region': 'infra', 'zone': 'default'}\" openshift_hostname=$INFRA-$c" >> /etc/ansible/hosts
 done
 
 # Loop to add Nodes
 
 for (( c=0; c<$NODECOUNT; c++ ))
 do
-  echo "$NODE-$c openshift_node_labels=\"{'type': 'app', 'zone': 'default'}\" openshift_hostname=$NODE-$c" >> /etc/ansible/hosts
+  echo "$NODE-$c openshift_node_labels=\"{'region': 'app', 'zone': 'default'}\" openshift_hostname=$NODE-$c" >> /etc/ansible/hosts
 done
 
 # Create new_nodes group
